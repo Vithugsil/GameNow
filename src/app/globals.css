@@ -1,5 +1,4 @@
-html,
-body {
+html, body {
     height: 100%;
 }
 
@@ -26,21 +25,4 @@ button {
 
 button:hover {
     background-color: #0923Af;
-}
-
-.start {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.start h1 {
-    font-size: 3.5em;
-}
-
-.start p {
-    margin-bottom: 2em;
-    color: yellow;
 }
