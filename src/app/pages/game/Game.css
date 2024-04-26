@@ -4,10 +4,12 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    width: 100%;
 }
 
 .game h1 {
     font-size: 2.5em;
+    
 
 }
 
@@ -19,8 +21,8 @@
     color: yellow;
 }
 .wordContainer {
-    width: 80%;
-    height: 100%;
+    width: 10 vw;
+    height: 10vw;
     margin: 1em;
     padding: 1em;
     border: 20px solid yellow;
@@ -28,15 +30,20 @@
 }
 
 .letter, .blankSquare {
-    font-size: 70px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-size: 10vw;
+    height: 10vw;
+    width: 10vw;
     line-height: 1.5em;
-    border: 3px solid #000;
-    height: 100px;
-    width: 100px;
     text-transform: uppercase;
+    border: 3px solid #000;
     background-color: #FFF;
     color: #000;
     font-weight: bold;
+     box-sizing: border-box;
+    
 }
 
 .letterContainer {

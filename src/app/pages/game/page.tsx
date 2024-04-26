@@ -1,31 +1,55 @@
 'use client'
 
-import { useState, useRef, FormEvent } from 'react';
+import {  useRef, FormEvent, useEffect } from 'react';
 import './Game.css';
+import { useGameStore } from '@/app/store/GameStoreState';
+import { useRouter } from 'next/navigation';
 
-interface GameProps {
-  verifyLetter: (letter: string) => void;
-  pickedWord: string;
-  pickedCategory: string;
-  letters: string[];
-  guessedLetters: string[];
-  wrongLetters: string[];
-  guesses: number;
-  score: number;
-}
 
-const Game: React.FC<GameProps> = ({
-  verifyLetter, pickedWord, pickedCategory, letters, guessedLetters, wrongLetters, guesses, score,
-}) => {
-  const [letter, setLetter] = useState<string>("");
+const Game: React.FC= () => {
+
+  const { 
+    score, 
+    pickedCategory, 
+    guesses, 
+    letters, 
+    guessedLetters, 
+    wrongLetters, 
+    verifyLetter, 
+    letter, 
+    setLetter,
+    startGame,
+    checkForWin 
+  } = useGameStore();
+
   const letterInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    verifyLetter(letter);
+    if(letter){
+      verifyLetter(letter);
+    }else{
+      console.log('letra não definida');
+    }
     setLetter("");
     letterInputRef.current?.focus();
   };
+
+  useEffect(() => {
+    startGame();
+  }, [startGame]);
+
+  useEffect(() => {
+    checkForWin(); 
+  }, [guessedLetters, checkForWin]);
+
+  useEffect(() => {
+    if (guesses <= 0) {
+      localStorage.setItem('score', score.toString()); 
+      router.push('/pages/gameover');
+    }
+  }, [guesses, router, score]);
 
   return (
     <div className="game">
@@ -44,12 +68,21 @@ const Game: React.FC<GameProps> = ({
           ) : (
             <span key={i} className="blankSquare"></span>
           )
+          
         ))}
       </div>
       <div className="letterContainer">
         <p>Tente advinhar uma letra da palavra:</p>
         <form onSubmit={handleSubmit}>
-          <input type="text" name="letter" maxLength={1} required onChange={(e) => setLetter(e.target.value)} value={letter} ref={letterInputRef} />
+          <input 
+                  type="text" 
+                  name="letter" 
+                  maxLength={1} 
+                  required 
+                  onChange={(e) => setLetter(e.target.value)} 
+                  value={letter} 
+                  ref={letterInputRef} 
+            />
           <button>Jogar!</button>
         </form>
       </div>
